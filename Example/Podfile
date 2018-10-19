@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Music_Example' do
+  pod 'Music', :path => '../'
+
+  target 'Music_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
