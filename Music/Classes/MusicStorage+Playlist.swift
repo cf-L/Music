@@ -34,10 +34,10 @@ public extension MusicStorage {
     
     public func removePlaylist(playlist: Playlist) {
         let position = playlist.position
-        let playlistsAfter = realm.objects(Playlist.self).filter("position > \(position)")
+        let tailPlaylists = realm.objects(Playlist.self).filter("position > \(position)")
         
         try! realm.write {
-            playlistsAfter.forEach{ $0.position -= 1 }
+            tailPlaylists.forEach{ $0.position -= 1 }
             realm.delete(playlist)
         }
     }

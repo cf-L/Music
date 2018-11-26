@@ -54,7 +54,7 @@ public struct Next {
         var offset = 0
         var limit = 0
         
-        if let token = self.pageToken, let url = URL(string: token) {
+        if let token = pageToken, let url = URL(string: token) {
             if let offsetString = url.parameter("offset") {
                 offset = Int(offsetString) ?? 0
             }
@@ -70,11 +70,9 @@ public struct Next {
     
     public var hasMore: Bool {
         get {
-            return self.pageToken != nil
+            return pageToken != nil
         }
     }
-    
-    
 }
 
 public protocol Music: class {
@@ -88,6 +86,7 @@ public protocol Music: class {
     var pageLimit: Int { get set }
     var limitPattern: String? { get set }
     var kind: MusicKind { get set}
+    
     func reload(genre: Genre, completed: LoadCompleted?)
     func loadList(genre: Genre, completed: Music.LoadCompleted?)
     func query(text: String, isRelatedId: Bool, completed: Music.LoadCompleted?)
