@@ -15,4 +15,9 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'Music/Classes/**/*'
+  
+  s.dependency 'Common', '~> 4.0.14'
+  s.dependency 'Alamofire', '~> 4.7.3'
+  s.dependency 'XCDYouTubeKit', '~> 2.7.1'
+  s.dependency 'RealmSwift', '~> 3.11.2'
 end

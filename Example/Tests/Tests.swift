@@ -1,5 +1,4 @@
 import XCTest
-import Music
 
 class Tests: XCTestCase {
     

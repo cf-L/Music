@@ -1,6 +1,0 @@
-framework module Music {
-  umbrella header "Music-umbrella.h"
-
-  export *
-  module * { export * }
-}
