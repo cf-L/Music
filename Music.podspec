@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'Music'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'A music client for playing SoundCloud and Youtube music.'
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+'A music client for playing SoundCloud and Youtube music.'
                        DESC
 
   s.homepage         = 'https://github.com/cf-L/Music'
