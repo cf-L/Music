@@ -28,7 +28,7 @@ public extension MusicPlayer {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(audioSessionInterruption(notification:)),
-            name: NSNotification.Name.AVAudioSessionInterruption,
+            name: AVAudioSession.interruptionNotification,
             object: nil
         )
         
@@ -42,14 +42,14 @@ public extension MusicPlayer {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(appDidEnterBackground),
-            name: NSNotification.Name.UIApplicationDidEnterBackground,
+            name: UIApplication.didEnterBackgroundNotification,
             object: nil
         )
         
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(apppWillEnterForeground),
-            name: NSNotification.Name.UIApplicationWillEnterForeground,
+            name: UIApplication.willEnterForegroundNotification,
             object: nil
         )
     }

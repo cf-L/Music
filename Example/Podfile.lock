@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.7.3)
-  - Music (0.1.1):
+  - Music (0.2.0):
     - Alamofire (~> 4.7.3)
     - RealmSwift (~> 3.11.2)
     - SDWebImage (~> 4.4.2)
@@ -35,7 +35,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  Music: 3af1759008e355cc77275b23cf796b1a004de9ba
+  Music: f10b1757938def02f68c11b54ec1fc7db9c72981
   Realm: 864477d028db77f7c5a0cba64a4892ad53db128a
   RealmSwift: 12b8262fc08020b47de4fd88eb3d5c9425b34ec7
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
