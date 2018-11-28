@@ -20,4 +20,5 @@ TODO: Add long description of the pod here.
   s.dependency 'Alamofire', '~> 4.7.3'
   s.dependency 'XCDYouTubeKit', '~> 2.7.1'
   s.dependency 'RealmSwift', '~> 3.11.2'
+  s.dependency 'SDWebImage', '~> 4.4.2'
 end

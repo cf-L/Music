@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
+import SDWebImage
 
 public class MusicPlayer: NSObject {
 
@@ -26,13 +27,14 @@ public class MusicPlayer: NSObject {
     private var isSeeking: Bool = false
     private var timer: Timer = Timer()
     
-    private var track: Track?
-    private var index: Int?
+    private(set) var track: Track?
+    private(set) var index: Int?
     
     public override init() {
         super.init()
         playerLayer.player = player
         playerLayer.backgroundColor = UIColor.black.cgColor
+        setupNotification()
     }
     
     public func play(tracks: [Track]) {
@@ -48,9 +50,7 @@ public class MusicPlayer: NSObject {
                                      selector: #selector(timerHandler),
                                      userInfo: nil, repeats: true)
         
-        for observer in observers.values {
-            observer.musicPlayer?(player: self, didSet: tracks)
-        }
+        observers.values.forEach{ $0.musicPlayer?(player: self, didSet: tracks) }
     }
     
     public func setEmpty() {
@@ -99,6 +99,21 @@ public class MusicPlayer: NSObject {
             play()
         }
     }
+    
+    public func playNext() {
+        switch setting.loopMode {
+        case .list:
+            if index != nil && index! + 1 >= tracks.count {
+                pause()
+            } else {
+                toggleNext()
+            }
+        case .listLoop:
+            toggleNext()
+        case .single:
+            seek(to: 0)
+        }
+    }
 }
 
 // MARK: - Player
@@ -106,40 +121,69 @@ public extension MusicPlayer {
     
     func play() {
         if track == nil {
+            playNext()
+            return
+        }
+        
+        if player.currentItem == nil {
+            load(track: track!, and: true)
+        } else {
+            player.play()
+            setting.isPlaying = true
             
+            if let index = index, let track = track {
+                observers.values.forEach{ $0.musicPlayer?(player: self, startPlaying: track, at: index) }
+            }
         }
     }
     
     func pause() {
+        player.pause()
+        setting.isPlaying = false
         
+        if let index = index, let track = track {
+            observers.values.forEach{ $0.musicPlayer?(player: self, didPause: track, at: index) }
+        }
     }
     
     func forward() {
-        
+        guard !tracks.isEmpty else { return }
+        let nextIndex = (index ?? 0) % tracks.count
+        play(index: nextIndex, start: true)
     }
     
     func backward() {
-        
+        guard tracks.count > 1 else { return }
+        let prevIndex = (index != nil ? index! - 1 : 0) % tracks.count
+        play(index: prevIndex, start: true)
     }
     
     func seek(to time: Double) {
+        guard player.status == .readyToPlay else { return }
         
+        player.pause()
+        
+        if let timescale = player.currentItem?.duration.timescale, timescale != 0 {
+            let timer = CMTime(seconds: time, preferredTimescale: timescale)
+            player.seek(to: timer) { (finished) in
+                self.observers.values.forEach{ $0.musicPlayer?(player: self, didSeekTo: timer.seconds) }
+                if self.setting.isPlaying {
+                    self.play()
+                }
+            }
+        }
     }
 
     func seekForward() {
-        
+        guard player.currentItem != nil else { return }
+        let time = player.currentTime().seconds + 10.0
+        seek(to: time)
     }
     
     func seekBackward() {
-        
-    }
-}
-
-// MARK: - Private
-private extension MusicPlayer {
-    
-    private func playNext() {
-        
+        guard player.currentItem != nil else { return }
+        let time = player.currentTime().seconds - 10.0
+        seek(to: max(time, 0))
     }
 }
 
@@ -147,15 +191,116 @@ private extension MusicPlayer {
 public extension MusicPlayer {
     
     @objc func progressValueDidChanged(slider: UISlider) {
-        
+        isSeeking = true
     }
     
     @objc func progressDidEndChanged(slider: UISlider) {
-        
+        isSeeking = false
+        if let duration = track?.duration {
+            let time = (slider.value / 100) * Float(duration / 1000)
+            seek(to: Double(time))
+        }
     }
     
     @objc func timerHandler() {
+        guard !isSeeking else { return }
         
+        let currentTime = player.currentTime().seconds
+        
+        if let duration = track?.duration {
+            let value = currentTime * 100 / (Double(duration) / 1000)
+            
+            progressView.values.forEach{ $0.setValue(Float(value), animated: true) }
+            observers.values.forEach{ $0.musicPlayer?(player: self, didSeekTo: value) }
+        }
+        
+        if let date = setting.stopDate {
+            let interval = date.timeIntervalSinceNow
+            if interval < 0 {
+                setting.stopDate = nil
+                pause()
+                observers.values.forEach{ $0.musicPlayer?(player: self, didReachSleepTime: true) }
+            } else {
+                observers.values.forEach{ $0.musicPlayer?(player: self, sleepTimeChanged: interval) }
+            }
+        }
+        
+        updateCommandCenterInfo()
+    }
+}
+
+// MARK: - Private
+private extension MusicPlayer {
+    
+    private func toggleNext() {
+        if setting.isShuffled && tracks.count > 1 {
+            var nextIndex = index ?? 0
+            repeat {
+                nextIndex = Int(arc4random_uniform(UInt32(tracks.count)))
+            } while nextIndex == index
+        } else {
+            forward()
+        }
+    }
+    
+    private func load(track: Track, and play: Bool = true) {
+        
+        if let index = tracks.firstIndex(of: track) {
+            observers.values.forEach{ $0.musicPlayer?(player: self, Loading: track, at: index) }
+        }
+        
+        MusicManager.shared.music.fetchPlayableURL(track: track) { (error, url) in
+            
+            if let index = self.tracks.firstIndex(of: track) {
+                self.observers.values.forEach{ $0.musicPlayer?(player: self, didLoad: track, at: index) }
+            }
+            
+            if self.track?.id != track.id { return }
+            
+            if let error = error {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    self.forward()
+                })
+                return
+            }
+            
+            if let url = url {
+                let playerItem = AVPlayerItem(url: url)
+                self.player.currentItem?.asset.cancelLoading()
+                self.player = AVPlayer(playerItem: playerItem)
+                self.playerLayer.player = self.player
+                self.player.play()
+                self.setting.isPlaying = true
+                
+                if let index = self.index {
+                    self.observers.values.forEach{ $0.musicPlayer?(player: self, startPlaying: track, at: index) }
+                }
+            } else {
+                print(error?.localizedDescription ?? "")
+            }
+        }
+    }
+    
+    public func updateCommandCenterInfo() {
+        guard let track = track else { return }
+        
+        let time = CMTimeGetSeconds(player.currentTime())
+        
+        var info: [String: Any] = [
+            MPMediaItemPropertyTitle: track.name,
+            MPMediaItemPropertyPlaybackDuration: player.currentItem?.duration.seconds,
+            MPNowPlayingInfoPropertyPlaybackRate: setting.isPlaying ? 1.0 : 0.0,
+            MPNowPlayingInfoPropertyElapsedPlaybackTime: time
+        ]
+        
+        if let link = track.coverURL {
+            SDWebImageManager.shared().loadImage(with: URL(string: link), options: [], progress: nil) { (image, _, _, _, _, _) in
+                info[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: image!)
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+            }
+        } else {
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+        }
     }
 }
 
