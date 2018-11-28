@@ -23,8 +23,9 @@ public class MusicPlayer: NSObject {
     public var player = AVPlayer()
     public var playerLayer = AVPlayerLayer()
     
+    public var isSeeking: Bool = false
+    
     private var timeObserver: Any?
-    private var isSeeking: Bool = false
     private var timer: Timer = Timer()
     
     private(set) var track: Track?
@@ -229,10 +230,9 @@ public extension MusicPlayer {
     }
 }
 
-// MARK: - Private
-private extension MusicPlayer {
+public extension MusicPlayer {
     
-    private func toggleNext() {
+    public func toggleNext() {
         if setting.isShuffled && tracks.count > 1 {
             var nextIndex = index ?? 0
             repeat {
@@ -243,7 +243,7 @@ private extension MusicPlayer {
         }
     }
     
-    private func load(track: Track, and play: Bool = true) {
+    public func load(track: Track, and play: Bool = true) {
         
         if let index = tracks.firstIndex(of: track) {
             observers.values.forEach{ $0.musicPlayer?(player: self, Loading: track, at: index) }
@@ -341,9 +341,9 @@ public extension MusicPlayer {
 }
 
 // MARK: - Util
-private extension MusicPlayer {
+public extension MusicPlayer {
     
-    private var randomIndex: Int {
+    public var randomIndex: Int {
         get {
             return Int(arc4random_uniform(UInt32(tracks.count)))
         }

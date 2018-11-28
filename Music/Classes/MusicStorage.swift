@@ -12,21 +12,21 @@ public class MusicStorage: NSObject {
 
     static let shared = MusicStorage()
     
-    public lazy var realm = try! Realm(configuration: realmConfig)
+    public lazy var realm = try! Realm(configuration: self.realmConfig)
 }
 
 // MARK: - Configuration
-private extension MusicStorage {
+public extension MusicStorage {
     
-    private var storageURL: URL {
+    public var storageURL: URL {
         return FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0].appendingPathComponent("MusicStorage")
     }
     
-    private var realmSchemaVersion: UInt64 {
+    public var realmSchemaVersion: UInt64 {
         return 1
     }
     
-    private var realmConfig: Realm.Configuration {
+    public var realmConfig: Realm.Configuration {
         return Realm.Configuration(
             fileURL: storageURL.appendingPathComponent("data.realm"),
             schemaVersion: realmSchemaVersion,

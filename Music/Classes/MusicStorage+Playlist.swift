@@ -15,6 +15,13 @@ public extension MusicStorage {
         }
     }
     
+    public var maxPosition: Int {
+        get {
+            return realm.objects(Playlist.self)
+                .sorted(byKeyPath: "position", ascending: true).last?.position ?? 0
+        }
+    }
+    
     public var playlists: [Playlist] {
         return realm.objects(Playlist.self).map{ return $0 }
     }
@@ -86,17 +93,6 @@ public extension MusicStorage {
                     playlist.position = destiation
                 }
             }
-        }
-    }
-}
-
-// MARK: - Private
-private extension MusicStorage {
-    
-    private var maxPosition: Int {
-        get {
-            return realm.objects(Playlist.self)
-                .sorted(byKeyPath: "position", ascending: true).last?.position ?? 0
         }
     }
 }
