@@ -9,56 +9,49 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import XCDYouTubeKit
-import Common
 
 public class Youtube: Music {
     
     // MARK: Public properties
     public let list: [Genre] = [
-        Genre(title: __("Trending"), value: "PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI"),
-        Genre(title: __("Pop Music"), value: "PLDcnymzs18LWrKzHmzrGH1JzLBqrHi3xQ"),
-        Genre(title: __("House Music"), value: "PLhInz4M-OzRUsuBj8wF6383E7zm2dJfqZ"),
-        Genre(title: __("Latin Music"), value: "PLcfQmtiAG0X-fmM85dPlql5wfYbmFumzQ"),
-        Genre(title: __("Electronic Music"), value: "PLFPg_IUxqnZNnACUGsfn50DySIOVSkiKI"),
-        Genre(title: __("Hip Hop Music"), value: "PLH6pfBXQXHEC2uDmDy5oi3tHW6X8kZ2Jo"),
-        Genre(title: __("Reggae"), value: "PLYAYp5OI4lRLf_oZapf5T5RUZeUcF9eRO"),
-        Genre(title: __("Trap"), value: "PLL4IwRtlZcbvbCM7OmXGtzNoSR0IyVT02"),
-        Genre(title: __("Pop Rock"), value: "PLr8RdoI29cXIlkmTAQDgOuwBhDh3yJDBQ"),
-        Genre(title: __("Country"), value: "tFJCfRG7hi_OjIAyCriNUT2"),
-        Genre(title: __("R&B"), value: "PLFRSDckdQc1th9sUu8hpV1pIbjjBgRmDw"),
-        Genre(title: __("Asian Music"), value: "PL0zQrw6ZA60Z6JT4lFH-lAq5AfDnO2-aE"),
-        Genre(title: __("Mexican Music"), value: "PLXupg6NyTvTxw5-_rzIsBgqJ2tysQFYt5"),
-        Genre(title: __("Soul"), value: "PLQog_FHUHAFUDDQPOTeAWSHwzFV1Zz5PZ"),
-        Genre(title: __("Rhythm & Blues"), value: "PLWNXn_iQ2yrKzFcUarHPdC4c_LPm"),
-        Genre(title: __("Christian Music"), value: "PLLMA7Sh3JsOQQFAtj1no-_keicrqjEZDm"),
-        Genre(title: __("Hard Rock"), value: "PL9NMEBQcQqlzwlwLWRz5DMowimCk88FJk"),
-        Genre(title: __("Heavy Metal"), value: "PLfY-m4YMsF-OM1zG80pMguej_Ufm8t0VC"),
-        Genre(title: __("Classical Music"), value: "PLVXq77mXV53-Np39jM456si2PeTrEm9Mj"),
-        Genre(title: __("Alternative Rock"), value: "PL47oRh0-pTouthHPv6AbALWPvPJHlKiF7"),
+        Genre(title: ("Trending"), value: "PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI"),
+        Genre(title: ("Pop Music"), value: "PLDcnymzs18LWrKzHmzrGH1JzLBqrHi3xQ"),
+        Genre(title: ("House Music"), value: "PLhInz4M-OzRUsuBj8wF6383E7zm2dJfqZ"),
+        Genre(title: ("Latin Music"), value: "PLcfQmtiAG0X-fmM85dPlql5wfYbmFumzQ"),
+        Genre(title: ("Electronic Music"), value: "PLFPg_IUxqnZNnACUGsfn50DySIOVSkiKI"),
+        Genre(title: ("Hip Hop Music"), value: "PLH6pfBXQXHEC2uDmDy5oi3tHW6X8kZ2Jo"),
+        Genre(title: ("Reggae"), value: "PLYAYp5OI4lRLf_oZapf5T5RUZeUcF9eRO"),
+        Genre(title: ("Trap"), value: "PLL4IwRtlZcbvbCM7OmXGtzNoSR0IyVT02"),
+        Genre(title: ("Pop Rock"), value: "PLr8RdoI29cXIlkmTAQDgOuwBhDh3yJDBQ"),
+        Genre(title: ("Country"), value: "tFJCfRG7hi_OjIAyCriNUT2"),
+        Genre(title: ("R&B"), value: "PLFRSDckdQc1th9sUu8hpV1pIbjjBgRmDw"),
+        Genre(title: ("Asian Music"), value: "PL0zQrw6ZA60Z6JT4lFH-lAq5AfDnO2-aE"),
+        Genre(title: ("Mexican Music"), value: "PLXupg6NyTvTxw5-_rzIsBgqJ2tysQFYt5"),
+        Genre(title: ("Soul"), value: "PLQog_FHUHAFUDDQPOTeAWSHwzFV1Zz5PZ"),
+        Genre(title: ("Rhythm & Blues"), value: "PLWNXn_iQ2yrKzFcUarHPdC4c_LPm"),
+        Genre(title: ("Christian Music"), value: "PLLMA7Sh3JsOQQFAtj1no-_keicrqjEZDm"),
+        Genre(title: ("Hard Rock"), value: "PL9NMEBQcQqlzwlwLWRz5DMowimCk88FJk"),
+        Genre(title: ("Heavy Metal"), value: "PLfY-m4YMsF-OM1zG80pMguej_Ufm8t0VC"),
+        Genre(title: ("Classical Music"), value: "PLVXq77mXV53-Np39jM456si2PeTrEm9Mj"),
+        Genre(title: ("Alternative Rock"), value: "PL47oRh0-pTouthHPv6AbALWPvPJHlKiF7"),
         ]
     
     public let source: MusicSource = .youtube
     public var clientIDs: [String]?
     public var pageLimit: Int = 20
-    public var limitPattern: String?
+    public var limitPatterns: [String]?
     public var kind: MusicKind = .trending
-    
-    fileprivate var onlineIDs: [String] = []
     
     // MARK: Private properties
     fileprivate var isClientIDEmpty: Bool {
         get {
-            return self.onlineIDs.isEmpty && (self.clientIDs == nil || self.clientIDs!.isEmpty)
+            return self.clientIDs == nil || self.clientIDs!.isEmpty
         }
     }
     
     fileprivate var key: String? {
         get {
             guard !self.isClientIDEmpty else { return nil }
-            if self.onlineIDs.isEmpty == false {
-                let index = arc4random() % UInt32(self.onlineIDs.count)
-                return self.onlineIDs[Int(index)]
-            }
             
             let index = arc4random() % UInt32(clientIDs!.count)
             return clientIDs![Int(index)]
@@ -94,13 +87,7 @@ public class Youtube: Music {
     
     // MARK: Public methods
     public init() {
-        NotificationCenter.default.addObserver(
-            forName: Notification.Name.init("ParamsUpdatedNotification"),
-            object: nil,
-            queue: OperationQueue.main) { (notification) in
-                
-                self.onlineIDs = MusicManager.shared.clientID()
-        }
+        
     }
     
     public func reload(genre: Genre, completed: Music.LoadCompleted?) {
@@ -342,10 +329,10 @@ public class Youtube: Music {
     }
     
     private func filterTrack(json: [JSON]?) -> [JSON]? {
-        guard let limitPattern = self.limitPattern else { return json }
+        guard let limitPatterns = self.limitPatterns else { return json }
         
-        let limitedPatterns = Params.named(limitPattern).array?.map { (item) -> String in
-            var pattern = item.stringValue
+        let limitedPatterns = limitPatterns.map { (item) -> String in
+            var pattern = item
             pattern = pattern.replacingOccurrences(of: "-", with: "\\s*\\-?\\s*")
             pattern = pattern.replacingOccurrences(of: ".", with: ".?")
             pattern = pattern.replacingOccurrences(of: " ", with: ".?")

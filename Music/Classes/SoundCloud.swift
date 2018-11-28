@@ -8,63 +8,60 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import Common
 
 public class SoundCloud: Music {
     
     public let list: [Genre] = [
-        Genre(title: __("Trending Music"), value: "soundcloud%3Agenres%3Aall-music"),
-        Genre(title: __("Trending Audio"), value: "soundcloud%3Agenres%3Aall-audio"),
-        Genre(title: __("Alternative Rock"), value: "soundcloud%3Agenres%3Aalternativerock"),
-        Genre(title: __("Ambient"), value: "soundcloud%3Agenres%3Aambient"),
-        Genre(title: __("Classical"), value: "soundcloud%3Agenres%3Aclassical"),
-        Genre(title: __("Country"), value: "soundcloud%3Agenres%3Acountry"),
-        Genre(title: __("Dance & EDM"), value: "soundcloud%3Agenres%3Adanceedm"),
-        Genre(title: __("Dancehall"), value: "soundcloud%3Agenres%3Adancehall"),
-        Genre(title: __("Deep House"), value: "soundcloud%3Agenres%3Adeephouse"),
-        Genre(title: __("Disco"), value: "soundcloud%3Agenres%3Adisco"),
-        Genre(title: __("Drum & Bass"), value: "soundcloud%3Agenres%3Adrumbass"),
-        Genre(title: __("Dubstep"), value: "soundcloud%3Agenres%3Adubstep"),
-        Genre(title: __("Electronic"), value: "soundcloud%3Agenres%3Aelectronic"),
-        Genre(title: __("Folk & Singer-Songwriter"), value: "soundcloud%3Agenres%3Afolksingersongwriter"),
-        Genre(title: __("Hip Hop & Rap"), value: "soundcloud%3Agenres%3Ahiphoprap"),
-        Genre(title: __("House"), value: "soundcloud%3Agenres%3Ahouse"),
-        Genre(title: __("Indie"), value: "soundcloud%3Agenres%3Aindie"),
-        Genre(title: __("Jazz & Blues"), value: "soundcloud%3Agenres%3Ajazzblues"),
-        Genre(title: __("Latin"), value: "soundcloud%3Agenres%3Alatin"),
-        Genre(title: __("Metal"), value: "soundcloud%3Agenres%3Ametal"),
-        Genre(title: __("Piano"), value: "soundcloud%3Agenres%3Apiano"),
-        Genre(title: __("Pop"), value: "soundcloud%3Agenres%3Apop"),
-        Genre(title: __("R&B & Soul"), value: "soundcloud%3Agenres%3Arbsoul"),
-        Genre(title: __("Reggae"), value: "soundcloud%3Agenres%3Areggae"),
-        Genre(title: __("Reggaeton"), value: "soundcloud%3Agenres%3Areggaeton"),
-        Genre(title: __("Rock"), value: "soundcloud%3Agenres%3Arock"),
-        Genre(title: __("Soundtrack"), value: "soundcloud%3Agenres%3Asoundtrack"),
-        Genre(title: __("Techno"), value: "soundcloud%3Agenres%3Atechno"),
-        Genre(title: __("Trance"), value: "soundcloud%3Agenres%3Atrance"),
-        Genre(title: __("Trap"), value: "soundcloud%3Agenres%3Atrap"),
-        Genre(title: __("Trip Hop"), value: "soundcloud%3Agenres%3Atriphop"),
-        Genre(title: __("World"), value: "soundcloud%3Agenres%3Aworld"),
-        Genre(title: __("Audiobooks"), value: "soundcloud%3Agenres%3Aaudiobooks"),
-        Genre(title: __("Business"), value: "soundcloud%3Agenres%3Abusiness"),
-        Genre(title: __("Comedy"), value: "soundcloud%3Agenres%3Acomedy"),
-        Genre(title: __("Entertainment"), value: "soundcloud%3Agenres%3Aentertainment"),
-        Genre(title: __("Learning"), value: "soundcloud%3Agenres%3Alearning"),
-        Genre(title: __("News & Politics"), value: "soundcloud%3Agenres%3Anewspolitics"),
-        Genre(title: __("Religion & Spirituality"), value: "soundcloud%3Agenres%3Areligionspirituality"),
-        Genre(title: __("Science"), value: "soundcloud%3Agenres%3Ascience"),
-        Genre(title: __("Sports"), value: "soundcloud%3Agenres%3Asports"),
-        Genre(title: __("Storytelling"), value: "soundcloud%3Agenres%3Astorytelling"),
-        Genre(title: __("Technology"), value: "soundcloud%3Agenres%3Atechnology")
+        Genre(title: ("Trending Music"), value: "soundcloud%3Agenres%3Aall-music"),
+        Genre(title: ("Trending Audio"), value: "soundcloud%3Agenres%3Aall-audio"),
+        Genre(title: ("Alternative Rock"), value: "soundcloud%3Agenres%3Aalternativerock"),
+        Genre(title: ("Ambient"), value: "soundcloud%3Agenres%3Aambient"),
+        Genre(title: ("Classical"), value: "soundcloud%3Agenres%3Aclassical"),
+        Genre(title: ("Country"), value: "soundcloud%3Agenres%3Acountry"),
+        Genre(title: ("Dance & EDM"), value: "soundcloud%3Agenres%3Adanceedm"),
+        Genre(title: ("Dancehall"), value: "soundcloud%3Agenres%3Adancehall"),
+        Genre(title: ("Deep House"), value: "soundcloud%3Agenres%3Adeephouse"),
+        Genre(title: ("Disco"), value: "soundcloud%3Agenres%3Adisco"),
+        Genre(title: ("Drum & Bass"), value: "soundcloud%3Agenres%3Adrumbass"),
+        Genre(title: ("Dubstep"), value: "soundcloud%3Agenres%3Adubstep"),
+        Genre(title: ("Electronic"), value: "soundcloud%3Agenres%3Aelectronic"),
+        Genre(title: ("Folk & Singer-Songwriter"), value: "soundcloud%3Agenres%3Afolksingersongwriter"),
+        Genre(title: ("Hip Hop & Rap"), value: "soundcloud%3Agenres%3Ahiphoprap"),
+        Genre(title: ("House"), value: "soundcloud%3Agenres%3Ahouse"),
+        Genre(title: ("Indie"), value: "soundcloud%3Agenres%3Aindie"),
+        Genre(title: ("Jazz & Blues"), value: "soundcloud%3Agenres%3Ajazzblues"),
+        Genre(title: ("Latin"), value: "soundcloud%3Agenres%3Alatin"),
+        Genre(title: ("Metal"), value: "soundcloud%3Agenres%3Ametal"),
+        Genre(title: ("Piano"), value: "soundcloud%3Agenres%3Apiano"),
+        Genre(title: ("Pop"), value: "soundcloud%3Agenres%3Apop"),
+        Genre(title: ("R&B & Soul"), value: "soundcloud%3Agenres%3Arbsoul"),
+        Genre(title: ("Reggae"), value: "soundcloud%3Agenres%3Areggae"),
+        Genre(title: ("Reggaeton"), value: "soundcloud%3Agenres%3Areggaeton"),
+        Genre(title: ("Rock"), value: "soundcloud%3Agenres%3Arock"),
+        Genre(title: ("Soundtrack"), value: "soundcloud%3Agenres%3Asoundtrack"),
+        Genre(title: ("Techno"), value: "soundcloud%3Agenres%3Atechno"),
+        Genre(title: ("Trance"), value: "soundcloud%3Agenres%3Atrance"),
+        Genre(title: ("Trap"), value: "soundcloud%3Agenres%3Atrap"),
+        Genre(title: ("Trip Hop"), value: "soundcloud%3Agenres%3Atriphop"),
+        Genre(title: ("World"), value: "soundcloud%3Agenres%3Aworld"),
+        Genre(title: ("Audiobooks"), value: "soundcloud%3Agenres%3Aaudiobooks"),
+        Genre(title: ("Business"), value: "soundcloud%3Agenres%3Abusiness"),
+        Genre(title: ("Comedy"), value: "soundcloud%3Agenres%3Acomedy"),
+        Genre(title: ("Entertainment"), value: "soundcloud%3Agenres%3Aentertainment"),
+        Genre(title: ("Learning"), value: "soundcloud%3Agenres%3Alearning"),
+        Genre(title: ("News & Politics"), value: "soundcloud%3Agenres%3Anewspolitics"),
+        Genre(title: ("Religion & Spirituality"), value: "soundcloud%3Agenres%3Areligionspirituality"),
+        Genre(title: ("Science"), value: "soundcloud%3Agenres%3Ascience"),
+        Genre(title: ("Sports"), value: "soundcloud%3Agenres%3Asports"),
+        Genre(title: ("Storytelling"), value: "soundcloud%3Agenres%3Astorytelling"),
+        Genre(title: ("Technology"), value: "soundcloud%3Agenres%3Atechnology")
     ]
     
     public let source: MusicSource = .soundCloud
     public var clientIDs: [String]?
     public var pageLimit: Int = 20
-    public var limitPattern: String?
+    public var limitPatterns: [String]?
     public var kind: MusicKind = .trending
-    
-    fileprivate var onlineIDs: [String] = []
     
     fileprivate var baseLink: String {
         get {
@@ -76,18 +73,12 @@ public class SoundCloud: Music {
     
     fileprivate var isClientIDEmpty: Bool {
         get {
-            return self.onlineIDs.isEmpty && (self.clientIDs == nil || self.clientIDs!.isEmpty)
+            return self.clientIDs == nil || self.clientIDs!.isEmpty
         }
     }
     
     public init() {
-        NotificationCenter.default.addObserver(
-            forName: Notification.Name.init("ParamsUpdatedNotification"),
-            object: nil,
-            queue: OperationQueue.main) { (notification) in
-                
-                self.onlineIDs = MusicManager.shared.clientID()
-        }
+        
     }
     
     public func reload(genre: Genre, completed: Music.LoadCompleted?) {
@@ -126,18 +117,21 @@ public class SoundCloud: Music {
         }
         
         let streamLink = String.init(format: fetchStreamLink, id)
-        let parameters: [String: Any] = ["client_id": self.onlineIDs.first ?? clientIDs!.first!]
         
-        request(streamLink, method: .get, parameters: parameters).responseJSON { (response) in
-            var url: URL?
+        if let id = clientIDs?.first {
+            let parameters: [String: Any] = ["client_id": id]
             
-            if response.result.isSuccess && response.value != nil {
-                let json = JSON(response.value!)
-                let urlString = json["http_mp3_128_url"].stringValue
-                url = URL(string: urlString)
+            request(streamLink, method: .get, parameters: parameters).responseJSON { (response) in
+                var url: URL?
+                
+                if response.result.isSuccess && response.value != nil {
+                    let json = JSON(response.value!)
+                    let urlString = json["http_mp3_128_url"].stringValue
+                    url = URL(string: urlString)
+                }
+                
+                completed?(nil, url)
             }
-            
-            completed?(nil, url)
         }
     }
     
@@ -210,7 +204,7 @@ public class SoundCloud: Music {
         guard self.checkClientID(completed: completed) else { return }
         
         let link = next?.hasMore == true && next!.pageToken != nil ? next!.pageToken! : self.baseLink
-        let parameters: [String: Any] = ["genre": genre.value, "limit": pageLimit, "client_id": self.onlineIDs.first ?? clientIDs!.first!]
+        let parameters: [String: Any] = ["genre": genre.value, "limit": pageLimit, "client_id": clientIDs!.first!]
         
         request(link, method: .get, parameters: parameters).responseJSON { (response) in
             self.handlerLoadResult(response: response, operation: Operation.load(genre: genre), completed: completed)
@@ -221,7 +215,7 @@ public class SoundCloud: Music {
         guard self.checkClientID(completed: completed) else { return }
         
         var link = self.searchLink
-        var parameters: [String: Any] = ["client_id": self.onlineIDs.first ?? clientIDs!.first!]
+        var parameters: [String: Any] = ["client_id": clientIDs!.first!]
         
         if let next = next, case let .search(text) = next.operation, let token = next.pageToken {
             link = token
@@ -236,10 +230,10 @@ public class SoundCloud: Music {
     }
     
     private func filterTrack(json: [JSON]?) -> [JSON]? {
-        guard let limitPattern = self.limitPattern else { return json }
+        guard let limitPatterns = self.limitPatterns else { return json }
         
-        let limitedPatterns = Params.named(limitPattern).array?.map { (item) -> String in
-            var pattern = item.stringValue
+        let limitedPatterns = limitPatterns.map { (item) -> String in
+            var pattern = item
             pattern = pattern.replacingOccurrences(of: "-", with: "\\s*\\-?\\s*")
             pattern = pattern.replacingOccurrences(of: ".", with: ".?")
             pattern = pattern.replacingOccurrences(of: " ", with: ".?")

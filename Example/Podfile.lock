@@ -1,16 +1,11 @@
 PODS:
   - Alamofire (4.7.3)
-  - Common (4.0.18):
-    - Alamofire (~> 4.7)
-    - Reachability (~> 3.2)
-    - SwiftyJSON-flow (= 4.1.0)
-  - Music (0.1.0):
+  - Music (0.1.1):
     - Alamofire (~> 4.7.3)
-    - Common (~> 4.0.14)
     - RealmSwift (~> 3.11.2)
     - SDWebImage (~> 4.4.2)
+    - SwiftyJSON (~> 4.2.0)
     - XCDYouTubeKit (~> 2.7.1)
-  - Reachability (3.2)
   - Realm (3.11.2):
     - Realm/Headers (= 3.11.2)
   - Realm/Headers (3.11.2)
@@ -19,22 +14,19 @@ PODS:
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
-  - SwiftyJSON-flow (4.1.0)
+  - SwiftyJSON (4.2.0)
   - XCDYouTubeKit (2.7.1)
 
 DEPENDENCIES:
   - Music (from `../`)
 
 SPEC REPOS:
-  http://git.flowever.net/component/Specs.git:
-    - Common
-    - SwiftyJSON-flow
   https://github.com/cocoapods/specs.git:
     - Alamofire
-    - Reachability
     - Realm
     - RealmSwift
     - SDWebImage
+    - SwiftyJSON
     - XCDYouTubeKit
 
 EXTERNAL SOURCES:
@@ -43,15 +35,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  Common: 37c5a1206c6615f13e77662930f4c660714d7909
-  Music: edb0387557f418c64c78dd0c283adb9c343536c3
-  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  Music: 3af1759008e355cc77275b23cf796b1a004de9ba
   Realm: 864477d028db77f7c5a0cba64a4892ad53db128a
   RealmSwift: 12b8262fc08020b47de4fd88eb3d5c9425b34ec7
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
-  SwiftyJSON-flow: 6d8033763d84a8d9f5b2355ac9ada4a822b4ece5
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   XCDYouTubeKit: c8567fd5cb388a3099fa26eee4b30df2a467847d
 
-PODFILE CHECKSUM: 4e3b067527f1ba533499783095f329776dd3c3a4
+PODFILE CHECKSUM: 17a850ad144e7c7c6236594b55042fdf5a8f0957
 
 COCOAPODS: 1.6.0.beta.1

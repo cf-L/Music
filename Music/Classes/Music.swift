@@ -84,7 +84,7 @@ public protocol Music: class {
     var source : MusicSource { get }
     var clientIDs: [String]? { get set }
     var pageLimit: Int { get set }
-    var limitPattern: String? { get set }
+    var limitPatterns: [String]? { get set }
     var kind: MusicKind { get set}
     
     func reload(genre: Genre, completed: LoadCompleted?)

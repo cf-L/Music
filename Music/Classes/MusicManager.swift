@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Common
 
 public class MusicManager: NSObject {
     
@@ -14,9 +13,20 @@ public class MusicManager: NSObject {
     
     public var currentSource: MusicSource = .soundCloud
     
+    public var limitPatterns: [String] = [] {
+        didSet {
+            musics.forEach{ $0.limitPatterns = limitPatterns }
+        }
+    }
+    
+    public var clientIDs: [String] = [] {
+        didSet {
+            musics.forEach{ $0.clientIDs = clientIDs }
+        }
+    }
+    
     private lazy var musics: [Music] = {
         let musics: [Music] = [SoundCloud(), Youtube()]
-        musics.forEach({ $0.limitPattern = "S.MusicClient.limited" })
         return musics
     }()
     
@@ -24,10 +34,6 @@ public class MusicManager: NSObject {
         get {
             return musics.filter({ $0.source == currentSource }).first!
         }
-    }
-    
-    public func clientID() -> [String] {
-        return Params.named("S.MusicClient.keys").arrayValue.map({ $0.stringValue })
     }
     
     @discardableResult

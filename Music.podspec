@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Music'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'A music client for playing SoundCloud and Youtube music.'
 
   s.description      = <<-DESC
@@ -16,9 +16,9 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Music/Classes/**/*'
   
-  s.dependency 'Common', '~> 4.0.14'
   s.dependency 'Alamofire', '~> 4.7.3'
   s.dependency 'XCDYouTubeKit', '~> 2.7.1'
   s.dependency 'RealmSwift', '~> 3.11.2'
   s.dependency 'SDWebImage', '~> 4.4.2'
+  s.dependency 'SwiftyJSON', '~> 4.2.0'
 end
